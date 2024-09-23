@@ -2,7 +2,7 @@ Streamlit app in development! (Stay tunned)
 
 # Resume
 
-Common scoring systems in games consider only the accumulation of point, generally weighted or based on a base score and then accumulate according to actions. This works fine when teams have the same size or scores are individually, but it doesn't work for teams, factions, play styles that have a special meaning or preference in a player base.
+Common scoring systems in games consider only the accumulation of points, generally weighted or based on a base score and then accumulate according to actions. This works fine when teams have the same size or scores are individually, but it doesn't work for teams, factions, play styles that have a special meaning or preference in a player base.
 
 An observed practice is assigned players randomly to each team, trying to balance in quantity terms. In a player preference/special meaning escenario, this can lead to frustration and socially harmful environment within a community that translates from quitting events to even leave the game, with the desire of having freedom to choose.
 
