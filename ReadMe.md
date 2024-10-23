@@ -17,4 +17,4 @@ Since preferences are subjective, players elections will be naturally unbalanced
 - Datetime
 
 ## Data visualization
-- Plotly Go Figures
+- Plotly graph_objects figures and subplots
