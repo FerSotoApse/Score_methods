@@ -1,0 +1,70 @@
+event_date,event_game,team,medal,acc_w_score,medal_abs_frequence
+2025-01-10,Diving,Summer,bronze,2,2
+2025-01-10,Diving,Summer,gold,12,4
+2025-01-10,Diving,Summer,silver,4,2
+2025-01-10,Diving,Autumn,bronze,4,4
+2025-01-10,Diving,Autumn,gold,12,4
+2025-01-10,Diving,Autumn,not played,0,0
+2025-01-10,Diving,Autumn,silver,6,3
+2025-01-10,Diving,Winter,bronze,3,3
+2025-01-10,Diving,Winter,gold,9,3
+2025-01-10,Diving,Winter,not played,0,0
+2025-01-10,Diving,Winter,silver,18,9
+2025-01-10,Flying,Summer,bronze,1,1
+2025-01-10,Flying,Summer,gold,3,1
+2025-01-10,Flying,Summer,not played,0,0
+2025-01-10,Flying,Summer,silver,4,2
+2025-01-10,Flying,Autumn,bronze,3,3
+2025-01-10,Flying,Autumn,gold,9,3
+2025-01-10,Flying,Autumn,not played,0,0
+2025-01-10,Flying,Autumn,silver,6,3
+2025-01-10,Flying,Winter,bronze,5,5
+2025-01-10,Flying,Winter,gold,3,1
+2025-01-10,Flying,Winter,not played,0,0
+2025-01-10,Flying,Winter,silver,8,4
+2025-01-10,Racing,Summer,bronze,1,1
+2025-01-10,Racing,Summer,gold,6,2
+2025-01-10,Racing,Summer,silver,10,5
+2025-01-10,Racing,Autumn,bronze,1,1
+2025-01-10,Racing,Autumn,gold,6,2
+2025-01-10,Racing,Autumn,not played,0,0
+2025-01-10,Racing,Autumn,silver,6,3
+2025-01-10,Racing,Winter,bronze,2,2
+2025-01-10,Racing,Winter,gold,18,6
+2025-01-10,Racing,Winter,not played,0,0
+2025-01-10,Racing,Winter,silver,6,3
+2025-01-10,Shooting,Summer,bronze,3,3
+2025-01-10,Shooting,Summer,gold,12,4
+2025-01-10,Shooting,Summer,not played,0,0
+2025-01-10,Shooting,Autumn,bronze,1,1
+2025-01-10,Shooting,Autumn,gold,12,4
+2025-01-10,Shooting,Autumn,not played,0,0
+2025-01-10,Shooting,Autumn,silver,8,4
+2025-01-10,Shooting,Winter,bronze,2,2
+2025-01-10,Shooting,Winter,gold,15,5
+2025-01-10,Shooting,Winter,not played,0,0
+2025-01-10,Shooting,Winter,silver,8,4
+2025-01-10,Skydiving,Summer,bronze,1,1
+2025-01-10,Skydiving,Summer,gold,3,1
+2025-01-10,Skydiving,Summer,not played,0,0
+2025-01-10,Skydiving,Summer,silver,8,4
+2025-01-10,Skydiving,Autumn,bronze,6,6
+2025-01-10,Skydiving,Autumn,gold,6,2
+2025-01-10,Skydiving,Autumn,not played,0,0
+2025-01-10,Skydiving,Autumn,silver,4,2
+2025-01-10,Skydiving,Winter,bronze,5,5
+2025-01-10,Skydiving,Winter,gold,18,6
+2025-01-10,Skydiving,Winter,not played,0,0
+2025-01-10,Skydiving,Winter,silver,6,3
+2025-01-10,Swimming,Summer,bronze,1,1
+2025-01-10,Swimming,Summer,gold,6,2
+2025-01-10,Swimming,Summer,not played,0,0
+2025-01-10,Swimming,Summer,silver,4,2
+2025-01-10,Swimming,Autumn,bronze,3,3
+2025-01-10,Swimming,Autumn,gold,12,4
+2025-01-10,Swimming,Autumn,not played,0,0
+2025-01-10,Swimming,Autumn,silver,2,1
+2025-01-10,Swimming,Winter,bronze,2,2
+2025-01-10,Swimming,Winter,gold,15,5
+2025-01-10,Swimming,Winter,not played,0,0
+2025-01-10,Swimming,Winter,silver,14,7
