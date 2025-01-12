@@ -7,7 +7,6 @@ import time, datetime
 from random import randint, shuffle
 
 pd.options.mode.copy_on_write = True
-#pd.set_option('future.no_silent_downcasting', True)
 
 import plotly.express as px
 import plotly.graph_objects as go
@@ -33,12 +32,12 @@ st.set_page_config(page_title = 'Score methods',
                    menu_items={'Report a bug': 'mailto:fefy.sotoapse@outlook.com',
                                'About' : '''App developed by Fernanda Soto (2024). All
                                          simulated or input data will last for a short time
-                                         and won't be stored after the session ends.'''})
+                                         and will reset when a new session starts.'''})
 
 # Main page intro
 if __name__ == "__main__":
     st.title("Scoring methods study")
-    st.text("resume en pocas palabras el estudio")
+#    st.text("resume en pocas palabras el estudio")
     st.divider()
 
 ######### end intro
@@ -254,34 +253,27 @@ if __name__ == "__main__":
                                          aux_metrics_part['team'].values[0],
                                          f"""{round(aux_metrics_part['team_participation_ratio'].values[0] - metrics_describe.at['mean', 'team_participation_ratio'],2)}%""")
 
-                    aux_data = df_teams_agg_metrics[['event_game', 'team','acc_w_score_total', 'perform_score_total', 'team_participation_ratio']]\
-                                .groupby(['event_game', 'team']).mean('team_participation').reset_index()
-
-                    c_d, c_x, c_y, c_color = aux_data, 'team', ['acc_w_score_total', 'perform_score_total', 'team_participation_ratio'], 'event_game'
+                    aux_data = df_teams_agg_metrics[['team','event_game', 'acc_w_score_total', 'perform_score_total', 'team_participation_ratio']].copy()
+                    aux_data.drop_duplicates(inplace = True, ignore_index=True)
                     
-                    # borrar luego---------------------
-                    #st.dataframe(aux_data)
-                    # ---------------------------------
 
             # visualize according to selected option (NECESITA ACTUALIZAR)
 
             if metric_select == ':material/stat_0:':
-                for i in range(len(c_y)):        
-                    st.plotly_chart(px.histogram(c_d,
-                                        x       = c_x,
-                                        y       = c_y[i],
-                                        color   = c_color,
-                                        barmode = 'group',
-                                        height  = 300)\
-                                    .update_layout(legend_orientation='h', legend_y = 0, legend_x = 0))
+                st.plotly_chart(bar_highlights(data = aux_data,
+                                               x                = 'team',
+                                               y                = ['acc_w_score_total', 'perform_score_total', 'team_participation_ratio'],
+                                               subplot_titles   = ['Accumulated Score', 'Performance Score', 'Teams Participacion'],
+                                               col_group        = 'event_game',
+                                               legend_group     = aux_data['event_game'].unique()))
             else:
-                st.plotly_chart(px.histogram(c_d,
-                                        x       = c_x,
-                                        y       = c_y,
-                                        color   = c_color,
-                                        barmode = 'group',
-                                        height  = 300)\
-                                    .update_layout(legend_orientation='h', legend_y = 0, legend_x = 0))
+                st.plotly_chart(px.bar(c_d,
+                                       x       = c_x,
+                                       y       = c_y,
+                                       color   = c_color,
+                                       barmode = 'group',
+                                       height  = 300)\
+                                       .update_layout(legend_orientation='h', legend_y = 0, legend_x = 0))
 
     ############ End metrics
 
@@ -308,7 +300,7 @@ if __name__ == "__main__":
                         y_title         = 'Scores by Accumulative Method'
                         hline_values    = 'acc_w_score_total'
 
-            test_bar=cust_bar_hline(df_data = df_teams_agg_metrics[df_teams_agg_metrics['medal']!='not played'],
+            test_bar=cust_bar_hline(df_data     = df_teams_agg_metrics[df_teams_agg_metrics['medal']!='not played'],
                             x_data              = 'medal',
                             y_data              = y_data,
                             facet_data_col      = 'team',
@@ -381,12 +373,13 @@ if __name__ == "__main__":
             with clust_cont:
                 #st.dataframe(df_clust_data[['player_id','samples']])
                 if len(set(df_clust_data['samples'])) == 1:# or len(set(t_samples)) == 1:
-                    st.subheader('**Looks like the model results are too *(im)perfect*!**')
-                    st.write('This can happen when all clusters are almost or perfectly overlaped (inertia = 0) or the silhouette scores 1.')
-                    st.write('The nature of this data can give unexpected results, you can still try with other numbers of clusters.')
-                    st.write('''Look at the Elbow Method plot down below! It has some usefull clues of how many clusters may work better with the model.
-                             It's recommended to choose a number of clusters that are easy to understand in the plots.''')
-                    st.write(':D')
+                    st.write("""
+                             <h2>Looks like the model results are too <i>(im)perfect</i>!</h2>
+                             <p>This can happen when all clusters are almost or perfectly overlaped (inertia = 0) or the silhouette scores 1.
+                             The nature of this data can give unexpected results, you can still try with other numbers of clusters.</p>
+                             <p>Look at the Elbow Method plot down below! It has some usefull clues of how many clusters may work better with the model.
+                             It's recommended to choose a number of clusters that are easy to understand in the plots.</p>
+                             """)
                     st.plotly_chart(elbow_method_plot(n_clusters = [i for i in range(2, output['clusters'][-1])],
                                                     inertias = output['inertias'],
                                                     umbral = clust_eval,
@@ -398,7 +391,8 @@ if __name__ == "__main__":
                         sub_category    = df_teams_disagg['team'].unique(),
                         x               = 'score',
                         y               = 'player_participation',
-                        legendgroup     = 'team',
+                        sub_cat_col     = 'team',
+                        legendgroup     = 'cluster',
                         size            = 'player_participation',
                         sizescale       =  25,
                         customdata      = 'player_id',
@@ -429,19 +423,34 @@ if __name__ == "__main__":
                                                     show_title=True))
                 
 
-        ##### show plots and metrics
-
-            
-
-            # testing additional kmeans
-
-
-
-
-
 ############ End clustering model
+    
     else:
-        st.html("<p>Select date, events, categories and number of players!</p>")
+        *intro_cols, = st.columns([1,2])
+        with intro_cols[0]:
+            st.html("""
+                    <h2>Instructions</h2>
+                    <h3>Sim Data</h3>
+                    <p>In the sidebar, select the parameters:<br>
+                    1- Select a date<br>
+                    2- Choose all the simultaneous events you want to visualize<br>
+                    3- Select up to 4 'teams'<br>
+                    4- Define total of users and 'teams' sizes<br>
+                    5- Click on 'Ready to go!' buttom<br>
+                    6- Start exploring all interactive plots!</p>
+                    <h3>Segmentation tab</h3>
+                    <p>In the Segmentation tab you can additionally define how many clusters will be given from <b>KMeans usupervised clustering</b>.
+                    If the amout of clusters aren't easy to interpret, you can always check the <b>Elbow Method plot</b> in the bottom right corner,
+                    then use the <b>cluster slide selector</b> to redefine how many clusters you need to understand better the user segments.</p>
+                    <p>In this model, the user segmentation is based on each <b>user total absolute score</b> and <b>mean relative participation</b>.
+                    The main <i>clustering scatter plot</i> shows how users are segmented individually, the <i>cluster bar plot</i> shows the composition
+                    of each cluster, and the <i>silhouette plot</i> shows the 'quality' of each cluster.</p>
+                    """)
+        with intro_cols[1]:
+            st.html("""
+                    <h2>About this project</h2><br>
+                    <p>...</p>
+                    """)
 
 else:
     pass

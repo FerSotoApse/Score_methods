@@ -117,7 +117,105 @@ def cust_bar_hline(df_data: pd.DataFrame,
     return bar_h_fig
 
 # grouped metrics bar plot
+def accent_color(data : list, main_color : str, accent : str) -> list[str]:
+    """
+    Function
+    -
+    Create a list of a same color with an accent color were the max value is.
 
+    Parameters
+    -
+    - data: list of numbers from where the max value will be picked
+    - main_color: HEX, CSS, rgb or rgba in str format
+    - accent: HEX, CSS, rgb or rgba in str format, must share the same color format as main_color
+    """
+    color_list = []
+    
+    for i in data:
+        if i != data.max():
+            color_list.append(main_color)
+        else:
+            color_list.append(accent)
+
+    return color_list
+
+def bar_highlights(data : pd.DataFrame, x : str, y: list, subplot_titles : list, col_group : str,legend_group : list,t : int = 50,b : int = 30,l : int = 0,r : int = 0, theme = 'plotly_white'):
+    """
+    Function
+    -
+    Create metric barplots with accent on max value bars.
+
+    Parameters
+    -
+    - data: dataframe with no duplicated data, ideal if has total values and/or percentages
+    - x: name of the column with etiquettes on x axis
+    - y: list of columns that will be plotted independently each faceted plot
+    - subplot_titles: subplot titles list
+    - col_group: name of the column with categorical etiquettes. Used to select from where the data will be filtered for categorical visualization
+    - legend_group: list of values from selected col_group (data[col_group]), used to iterate. Also gives legend tag names
+    - Margin params: t (top), b (bottom), l (left), r (right)
+    """
+
+
+    template_color = pio.templates[pio.templates.default]['layout']['colorway']
+
+    # build subplot figure
+    bar_metrics_subplot = make_subplots(rows = 1, cols = 3,
+                                        subplot_titles = subplot_titles,
+                                        shared_yaxes=False)
+
+    # bar plots
+    for i in range(len(legend_group)):
+        f_data = data[data[col_group] == legend_group[i]]
+        
+        bar_metrics_subplot.add_trace(go.Bar( # facet 1
+            name            = legend_group[i],
+            x               = f_data[x],
+            y               = f_data[y[0]],
+            marker_color    = accent_color(f_data[y[0]], template_color[i], template_color[-1]),
+            text            = f_data[y[0]],
+            legendgroup     = legend_group[i],
+            hovertemplate   = "<extra>" + legend_group[i] + " - %{x}</extra>"+
+                            "Absolute Score sum: %{y} points"
+            ),row=1,col=1)
+        
+        bar_metrics_subplot.add_trace(go.Bar( # facet 2
+            name            = legend_group[i],
+            x               = f_data[x],
+            y               = f_data[y[1]],
+            marker_color    = accent_color(f_data[y[1]], template_color[i], template_color[-1]),
+            text            = [float(f"{n:.2f}") for n in f_data[y[1]]],
+            legendgroup     = legend_group[i],
+            showlegend      = False,
+            hovertemplate   = "<extra>" + legend_group[i] + " - %{x}</extra>"+
+                            "Performance Score sum: %{y} points"
+            ),row=1, col=2)
+        
+        bar_metrics_subplot.add_trace(go.Bar( # facet 3
+            name            = legend_group[i],
+            x               = f_data[x],
+            y               = f_data[y[2]],
+            marker_color    = accent_color(f_data[y[2]], template_color[i], template_color[-1]),
+            text            = [f"{n}%" for n in f_data[y[2]]],
+            legendgroup     = legend_group[i],
+            showlegend      = False,
+            hovertemplate   = "<extra>" + legend_group[i] + " - %{x}</extra>"+
+                            "Participation: %{y}%"
+            ),row=1, col=3)
+
+    # layout and axes
+    bar_metrics_subplot.update_yaxes(showticklabels = False, showgrid=True)
+    bar_metrics_subplot.update_xaxes(showticklabels = False, showgrid=False)
+
+    bar_metrics_subplot.update_layout(
+        barmode='group',
+        hovermode = 'x',
+        legend_orientation = 'h',
+        template = f'{theme}+{pio.templates.default}',
+        margin = dict(t=t, b=b, l=l, r=r),
+        height = 300)
+
+    return bar_metrics_subplot
 
 #------------------------------------------------------------------------------
 

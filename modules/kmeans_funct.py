@@ -166,7 +166,7 @@ def score_contour_trace(name: str, opacity: float, xrange: list[float], yrange: 
     return contour_trace
 
 # kmean scatter figure
-def kmean_scatter(data : pd.DataFrame, category : list, sub_category : list, x : str, y : str, legendgroup : str, size : str, sizescale : float,
+def kmean_scatter(data : pd.DataFrame, category : list, sub_category : list, x : str, y : str, sub_cat_col : str, legendgroup: str,  size : str, sizescale : float,
                   customdata : str, legend_title :str):
     """
     Function
@@ -177,10 +177,11 @@ def kmean_scatter(data : pd.DataFrame, category : list, sub_category : list, x :
     -
     - data: main data, must have a labels_desc column related with category entry values
     - category: list main categorical group unique values, must be values contained in 'labels_desc' column
-    - sub_category: list with unique values, must be related with legendgroup entry
+    - sub_category: list with unique values, must be related with sub_cat_col entry
     - x: column for x axis values
     - y: column for y axis values
-    - legendgroup: column used to group iterarions and to filter sub category data
+    - sub_cat_col: column used to group iterarions and to filter sub category data
+    - legendgroup: groups traces' legends
     - size: column with float values to give size to markers
     - sizescale: marker size scalar
     - customdata: column used to display in hoverdata
@@ -199,12 +200,12 @@ def kmean_scatter(data : pd.DataFrame, category : list, sub_category : list, x :
 
     for sc_i in range(len(sub_category)):
         for c_i in range(len(category)):
-            data_filtered = data[data['labels_desc']== category[c_i]][data[legendgroup]== sub_category[sc_i]]
+            data_filtered = data[data['labels_desc']== category[c_i]][data[sub_cat_col]== sub_category[sc_i]]
             scatter_fig.add_trace(go.Scatter(
                 x = data_filtered[x],
                 y = data_filtered[y],
                 name = f"{category[c_i]} - {sub_category[sc_i]}",
-                legendgroup = f"{sc_i}{legendgroup}",
+                legendgroup = f"{c_i}{legendgroup}",
                 mode = 'markers',
                 marker_color = color[sc_i],
                 marker_opacity = .5,
@@ -224,7 +225,8 @@ def kmean_scatter(data : pd.DataFrame, category : list, sub_category : list, x :
                               legend = dict(orientation = 'v',
                                             yanchor = 'top', yref='paper', y=0.9,
                                             xanchor = 'right', xref='container', x=0.9,
-                                            groupclick ="toggleitem"),
+                                            #groupclick ="toggleitem"
+                                            ),
                               width = 1800, height = 600, margin = dict(t=0,b=30,l=0,r=0))
 
     return scatter_fig
@@ -354,10 +356,14 @@ def cluster_composition(data : pd.DataFrame, cluster_col : str, group_col : str,
     group_col_t = data[group_col].unique()
     cluster_col_t = data[cluster_col].sort_values(ascending=True).unique()
     
+    # color groups
     if color_order == None:
         color_map = {k:v for k,v in zip(group_col_t, color)}
     else:
         color_map = {k:v for k,v in zip(color_order, color)}
+
+    while len(color) < len(cluster_col_t): # prevent indexing error
+        color.extend(color)
     
     comp_bar = go.Figure()
 
