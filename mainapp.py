@@ -81,9 +81,10 @@ if __name__ == "__main__":
 
 ######### end pipeline
 
-######### EDA and ML tabs        
+######### EDA and ML tabs
         tab_data, tab_ml = st.tabs(['Sim data EDA', 'User segmentation'])
 
+######### EDA tab
 ##### General Stats: segmented control selector and  st metrics
 
         with tab_data:
@@ -244,7 +245,7 @@ if __name__ == "__main__":
                                          round(aux_sort['perform_score_total'].values[0], 2),
                                          round(aux_sort['perform_score_total'].values[0] - metrics_describe.at['mean', 'perform_score_total'], 2))
                     # fav event based on team participation ratio
-                    metric_col[2].metric(f"Favourite event",
+                    metric_col[2].metric(f"Most played event game",
                                          metrics_part_sort['event_game'].values[0],
                                          f"""{round(metrics_part_sort['team_participation_ratio'].values[0] - metrics_describe.at['mean', 'team_participation_ratio'], 2)}%
                                              ({metrics_part_sort['team'].values[0]})""")
@@ -321,7 +322,9 @@ if __name__ == "__main__":
             st.plotly_chart(test_bar)
 
     ########### End barplots
+######### End EDA tab
 
+######### ML tab
 ######## ML: unsupervised clustering model - KMeans
         with tab_ml:
         ##### page composition
@@ -353,12 +356,6 @@ if __name__ == "__main__":
                     'samples'   : output['samples'][select_idx],
                     'labels'    : output['labels'][select_idx]})
                 df_clust_data['labels_desc'] = pd.Series([f'cluster {l}'for l in df_clust_data['labels']])
-
-#            # only preview ##########################
-#            aux_cont = st.container(border =True, height=400)
-#            aux_cont.dataframe(df_clust_data)
-#            aux_cont.write(output)
-#            #########################################
 
             with comp_col:
                 st.plotly_chart(cluster_composition(
@@ -424,7 +421,8 @@ if __name__ == "__main__":
                 
 
 ############ End clustering model
-    
+######### End ML tab
+
     else:
         *intro_cols, = st.columns([1,2])
         with intro_cols[0]:
@@ -439,7 +437,7 @@ if __name__ == "__main__":
                     5- Click on 'Ready to go!' buttom<br>
                     6- Start exploring all interactive plots!</p>
                     <h3>Segmentation tab</h3>
-                    <p>In the Segmentation tab you can additionally define how many clusters will be given from <b>KMeans usupervised clustering</b>.
+                    <p>In the Segmentation tab you can additionally define how many clusters will be given from <b>KMeans unsupervised clustering</b>.
                     If the amout of clusters aren't easy to interpret, you can always check the <b>Elbow Method plot</b> in the bottom right corner,
                     then use the <b>cluster slide selector</b> to redefine how many clusters you need to understand better the user segments.</p>
                     <p>In this model, the user segmentation is based on each <b>user total absolute score</b> and <b>mean relative participation</b>.
@@ -449,8 +447,34 @@ if __name__ == "__main__":
         with intro_cols[1]:
             st.html("""
                     <h2>About this project</h2><br>
-                    <p>...</p>
+                    <body>
+                    <p>The premise of this project is based on a group of users (in this case, of a video game) being able to freely choose which team they
+                    want to belong to, which represents something symbolically significant, in an event within a defined period of time. Although it can also
+                    be applied in the 'avatar' profiling situation (especially in the gameplay features), in this case it is considered as an example of a time-limited
+                    event, where the users themselves are given the opportunity to choose rather than being arbitrarily assigned.</p>
+                    <p>In the real case, three surveys were made, the first one by a user to a hundred different users about their preferences (before the event was created),
+                    the other two made by the developers to their community, about in which team each user was assigned and the event's games. Even if
+                    the numbers don't reflect the total player base, we can synthesize the data based on what was made public:</p>
+                    <p>
+                    <b>a)</b> According to the preferences survey, where the question was <i>'what's your favourite realm in the game?'</i>, the answers were:
+                    2% voted the 1st realm, 25% the 2nd, 32% the 3rd, 11% the 4th, 15% the 5th, 13% the 6th and 2%
+                    liked the 7th realm
+                    <br>
+                    <b>b)</b> In the event survey (first week) where four realms were defined as teams, the question was <i>'which [...] team are you?'</i>, 1989
+                    users were assign to 2nd realm, 2248 to 3rd realm, 1949 to 4th realm and 1900 to 5th realm, with a <b>total of 8086 apparent active
+                    users during the first week</b>. Also in the event survey, some users voted to stay on the sidelines (713 users)
+                    <br>
+                    <b>c)</b> The second event survey question was <i>'which is your favourite [...] challenge?'</i> of the overall event (answers
+                    were multichoice): 993 votes for game A, 1682 for game B, 857 for game C, 887 for game D, 3030 for game E and 1597 for game F. Two games were
+                    open every day until the day before the event ended (the last day was the final score showcase).
+                    </p>
+                    <p>Given the available information, an approximation of <b>preferences in team selection</b> would result in: 2436 users (30.12%) in the 2nd realm team,
+                    3118 (38.55%) in the 3rd, 1022 (13.25%) in the 3th and 1461 (18.07%) in the 5th realm team (with given number of users from the survey). These sizes
+                    are umbalanced for aggregated score systems, but here is proposed scoring based on <b>individual accumulative score</b> and <b>team performance
+                    score</b>, where performance is defined as the proportion of medals won (or merits) multiplied by its weights, within each team.</p>
+                    </body>
                     """)
 
+############ No excecution
 else:
     pass
