@@ -1,16 +1,11 @@
 import streamlit as st
 import requests
 
-import numpy as np
 import pandas as pd
-import time, datetime
-from random import randint, shuffle
 
 pd.options.mode.copy_on_write = True
 
 import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import plotly.io as pio
 import modules.my_themes
 
@@ -37,7 +32,6 @@ st.set_page_config(page_title = 'Score methods',
 # Main page intro
 if __name__ == "__main__":
     st.title("Scoring methods study")
-#    st.text("resume en pocas palabras el estudio")
     st.divider()
 
 ######### end intro
@@ -368,8 +362,7 @@ if __name__ == "__main__":
         ##### Build clustering visualization
             # cluster scatter-contour figure
             with clust_cont:
-                #st.dataframe(df_clust_data[['player_id','samples']])
-                if len(set(df_clust_data['samples'])) == 1:# or len(set(t_samples)) == 1:
+                if len(set(df_clust_data['samples'])) == 1:
                     st.write("""
                              <h2>Looks like the model results are too <i>(im)perfect</i>!</h2>
                              <p>This can happen when all clusters are almost or perfectly overlaped (inertia = 0) or the silhouette scores 1.
@@ -418,7 +411,6 @@ if __name__ == "__main__":
                                                     inertias = output['inertias'],
                                                     umbral = clust_eval,
                                                     show_title=True))
-                
 
 ############ End clustering model
 ######### End ML tab
@@ -449,12 +441,14 @@ if __name__ == "__main__":
                     <h2>About this project</h2><br>
                     <body>
                     <p>The premise of this project is based on a group of users (in this case, of a video game) being able to freely choose which team they
-                    want to belong to, which represents something symbolically significant, in an event within a defined period of time. Although it can also
-                    be applied in the 'avatar' profiling situation (especially in the gameplay features), in this case it is considered as an example of a time-limited
-                    event, where the users themselves are given the opportunity to choose rather than being arbitrarily assigned.</p>
-                    <p>In the real case, three surveys were made, the first one by a user to a hundred different users about their preferences (before the event was created),
-                    the other two made by the developers to their community, about in which team each user was assigned and the event's games. Even if
-                    the numbers don't reflect the total player base, we can synthesize the data based on what was made public:</p>
+                    want to belong to rather than being arbitrarily assigned, which represents something symbolically significant, in a time-limited event.
+                    This tool synthesize the main data composed by: date, player id, 'games' within the event, choosen 'team' and random scores (numeric and
+                    description) one time scoring. The real case considered up to three-time a day scoring in batches from one to eight players (the amount of players
+                    is significant to the final score in each batch), but for simplicity, in this simulation a single posible participation is enough.</p>
+                    <p>In the real case, users were assigned to each team and three surveys were made: the first one by a user to a hundred different
+                    users about their preferences (before the event was created), the other two made by the developers to their community, about in
+                    which team each user was assigned and the event's games. Even if the numbers don't reflect the total player base, we can synthesize
+                    the data based on what was made public:</p>
                     <p>
                     <b>a)</b> According to the preferences survey, where the question was <i>'what's your favourite realm in the game?'</i>, the answers were:
                     2% voted the 1st realm, 25% the 2nd, 32% the 3rd, 11% the 4th, 15% the 5th, 13% the 6th and 2%
@@ -465,8 +459,8 @@ if __name__ == "__main__":
                     users during the first week</b>. Also in the event survey, some users voted to stay on the sidelines (713 users)
                     <br>
                     <b>c)</b> The second event survey question was <i>'which is your favourite [...] challenge?'</i> of the overall event (answers
-                    were multichoice): 993 votes for game A, 1682 for game B, 857 for game C, 887 for game D, 3030 for game E and 1597 for game F. Two games were
-                    open every day until the day before the event ended (the last day was the final score showcase).
+                    were multichoice): 993 votes for game A, 1682 for game B, 857 for game C, 887 for game D, 3030 for game E and 1597 for game F. Two different games were
+                    active every day until the day before the event ended (the last day was the final score showcase).
                     </p>
                     <p>Given the available information, an approximation of <b>preferences in team selection</b> would result in: 2436 users (30.12%) in the 2nd realm team,
                     3118 (38.55%) in the 3rd, 1022 (13.25%) in the 3th and 1461 (18.07%) in the 5th realm team (with given number of users from the survey). These sizes
@@ -475,6 +469,5 @@ if __name__ == "__main__":
                     </body>
                     """)
 
-############ No excecution
 else:
     pass
