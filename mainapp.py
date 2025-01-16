@@ -119,11 +119,16 @@ if __name__ == "__main__":
             # barpolar plot and selector
             barpolar_cont = polardata_col[1].container(border=False, height= 300)
             # the selector will appear under the barpolar
-            bp_select = polardata_col[1].select_slider('Barplot events',
-                                                       list(df_teams_disagg['event_game'].unique()),
-                                                       label_visibility= 'collapsed')
+            if len(df_teams_disagg['event_game'].unique()) > 1:
+                bp_select = polardata_col[1].select_slider('Barplot events',
+                                                           list(df_teams_disagg['event_game'].unique()),
+                                                           label_visibility= 'collapsed')
+                # the container is on the slider, so the plot will appear on the slider
+                bp_filtered = df_teams_disagg[df_teams_disagg['event_game']==bp_select]
+            else:
+                bp_filtered = df_teams_disagg
             # the container is on the slider, so the plot will appear on the slider
-            barpolar_players = cust_barpolar(df_data = df_teams_disagg[df_teams_disagg['event_game']==bp_select],
+            barpolar_players = cust_barpolar(df_data = bp_filtered,
                           r             = 'score',
                           theta         = 'player_id',
                           group_data    = 'team',
@@ -137,7 +142,6 @@ if __name__ == "__main__":
                                           "<i>Position</i> %{customdata[1]} medal<br>"
                                           "<b>Score</b> %{r}",
                           add_name = '', h = 300, w = 900, hole = .25)
-
             barpolar_cont.plotly_chart(barpolar_players)
 
     ######## End polar overview
