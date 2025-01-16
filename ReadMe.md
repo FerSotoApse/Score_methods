@@ -1,4 +1,6 @@
-Streamlit app in development! (Stay tunned)
+# Score Methods Study #
+
+[Streamlit app link](https://scoremethods.streamlit.app/)
 
 # Resume
 
@@ -16,5 +18,9 @@ Since preferences are subjective, players elections will be naturally unbalanced
 - Random
 - Datetime
 
+## Machine Learning Model
+- scikit-learn (KMeans unsupervised model and metrics)
+
 ## Data visualization
-- Plotly graph_objects figures and subplots
+- Mainly Plotly graph_objects
+- Plotly Express
