@@ -1,4 +1,6 @@
-Streamlit app in development! (Stay tunned)
+# Score Methods Study #
+
+[Streamlit app link](https://scoremethods.streamlit.app/)
 
 # Resume
 
