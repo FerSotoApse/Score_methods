@@ -4,11 +4,30 @@
 
 # Resume
 
-Common scoring systems in games consider only the accumulation of points, generally weighted or based on a base score and then accumulate according to actions. This works fine when teams have the same size or scores are individually, but it doesn't work for teams, factions, play styles that have a special meaning or preference in a player base.
+Common scoring systems used in games consider a simple accumulation of points gained by the user, and tend to gain complexity
+depending on what is being measured. This methods work well when are applied on single players or on team games with a defined,
+unmutable size, but not in a situation were the size is defined by user preferences, were teams or categories will be naturally
+unbalanced. Here is proposed an alternative scoring method based on the performance of each group, which can be
+applied on large, naturally irregular groups, tested on a event escenario with multiple activities.
 
-An observed practice is assigned players randomly to each team, trying to balance in quantity terms. In a player preference/special meaning escenario, this can lead to frustration and socially harmful environment within a community that translates from quitting events to even leave the game, with the desire of having freedom to choose.
+# Data description
 
-Since preferences are subjective, players elections will be naturally unbalanced, creating larger and smaller categories (factions, play styles, etc.) where in a general event category A can win/loose to category B mainly because of active players quantity, but not always for players quality...
+All initial synthetic data is randomly generated, and based on the user point of view interface:
+
+- player_id: user unique identification
+- event_date: date of the event, in YYYY-MM-DD format
+- event_game: activity within the overall event, can be multiple activities happening at the same time
+- team: team, group or category where the user belongs.
+- score: user score in an activity. 0 is given if not participated in the activity, 1 to 3 if the user participated
+- medal: medal won by the user in an activity. 0 is 'not played', 1 is 'bronze', 2 is 'silver', 3 is 'gold'
+
+# Method
+
+# Sources
+
+- [Sky: Children of the Light Fandom, "Tournament of Triumph"](https://sky-children-of-the-light.fandom.com/wiki/Tournament_of_Triumph)
+- [Godai Sky: "¿Cuál es el reino más popular de Sky: Children of the Light?"](https://youtu.be/06E3c04gVlA)
+- "Sky: Children of the Light", official That Game Company (TGC) Discord server, news channel.
 
 # Libraries
 
@@ -19,8 +38,8 @@ Since preferences are subjective, players elections will be naturally unbalanced
 - Datetime
 
 ## Machine Learning Model
-- scikit-learn (KMeans unsupervised model and metrics)
+- Scikit-learn for KMeans unsupervised model and metrics
 
 ## Data visualization
-- Mainly Plotly graph_objects
+- Plotly graph_objects
 - Plotly Express
